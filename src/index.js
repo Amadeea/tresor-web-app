@@ -1,10 +1,25 @@
-import http from 'http';
+import express from 'express';
+import userApi from './router/userApi';
+import bodyParser from 'body-parser';
 
+const app = express();
 
-http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
+app.use(bodyParser.urlencoded({
+  limit: '100mb',
+  extended: true
+}));
 
-console.log('Server running at http://127.0.0.1:1337/');
+app.use(bodyParser.json({
+  limit: '100mb'
+}));
 
+app.get('/', (req, res) => {
+  console.log("home request");
+  res.send('Hello World!');
+});
+
+app.use(userApi());
+
+app.listen(1337, () => {
+  console.log("Server is running");
+});
