@@ -1,4 +1,5 @@
 import express from 'express';
+import mongo from '../db/mongo';
 
 export default function userApi() {
   const router = express.Router();
@@ -8,6 +9,8 @@ export default function userApi() {
     const password = req.body.password;
     res.send("register user = " + user +
      " with password = " + password);
+
+    mongo.saveUser(user, password);
   });
 
   return router;
